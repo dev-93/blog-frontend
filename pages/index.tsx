@@ -7,6 +7,7 @@ const Home = () => {
         <>
             <AuthForm />
             <Button>버튼</Button>
+            <Button>테스트</Button>
         </>
     )
 };
