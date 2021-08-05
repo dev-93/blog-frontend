@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from "styled-components";
-import { loginState } from '../../store/login';
+import { loginForm, registerForm } from '../../store/auth';
 import palette from '../../styles/palette';
 
 type Props = {
@@ -12,12 +12,22 @@ type Props = {
 
 const AuthForm = ({type}: Props) => { 
     const text = ( type === "login" ) ? "로그인" : "회원가입";
-    const [state, setState] = useRecoilState(loginState);
+    const [login, setLogin] = useRecoilState(loginForm);
+    const [register, setRegister] = useRecoilState(registerForm);
+    const registerValue = useRecoilValue(registerForm);
+    const logingValue = useRecoilValue(loginForm);
+
+    console.log(registerValue);
+    console.log(logingValue);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
 
-        setState({...state, [name]: value})
+        type === "login" ? (
+            setLogin({...login, [name]: value})
+        ) : (
+            setRegister({...register, [name]: value})
+        )
     };
     
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
