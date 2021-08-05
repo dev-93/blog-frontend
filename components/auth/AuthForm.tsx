@@ -1,7 +1,9 @@
 import { Button } from 'antd';
 import Link from 'next/link';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from "styled-components";
+import { loginState } from '../../store/login';
 import palette from '../../styles/palette';
 
 type Props = {
@@ -10,35 +12,34 @@ type Props = {
 
 const AuthForm = ({type}: Props) => { 
     const text = ( type === "login" ) ? "로그인" : "회원가입";
-    const [id, setId] = useState('');
-    const [password, setPassword] = useState('');
+    const [state, setState] = useRecoilState(loginState);
 
-    const onChange = (e: any) => {
-        // e 값을 무엇으로 설정해야할까요?
-        // 일단 모를떄는 any 로 설정합니다.
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value, name } = e.target;
+
+        setState({...state, [name]: value})
     };
     
-    const handleSubmit = (e: any) => {
-        // 여기도 모르니까 any 로 하겠습니다.
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log(e);
     };
-
-    console.log(id, password)
 
     return (
         <AuthFormBlock>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <StyledInput 
                     autoComplete="username"
                     name="username"
                     placeholder="아이디"
-                    onChange={(e) => setId(e.target.value)}
+                    onChange={onChange}
                 />
                 <StyledInput 
                     autoComplete="new-password"
                     name="password"
                     placeholder="비밀번호"
                     type="password"
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={onChange}
                 />
 
                 {type === 'register' && (
@@ -47,6 +48,7 @@ const AuthForm = ({type}: Props) => {
                         name="passwordConfirm"
                         placeholder="비밀번호 확인"
                         type="password"
+                        onChange={onChange}
                     />
                 )}
 
