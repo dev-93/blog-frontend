@@ -5,7 +5,7 @@ const Register = () => {
     return (
         <Wrap>
             <AuthTemplate>
-                <AuthForm />
+                <AuthForm type="register"/>
             </AuthTemplate>
         </Wrap>
     )

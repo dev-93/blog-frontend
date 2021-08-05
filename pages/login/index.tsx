@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import styled from "styled-components";
 import { AuthForm, AuthTemplate } from "../../components/auth";
 
@@ -5,7 +6,7 @@ const Login = () => {
     return (
         <Wrap>
             <AuthTemplate>
-                <AuthForm />
+                <AuthForm type="login"/>
             </AuthTemplate>
         </Wrap>
     )

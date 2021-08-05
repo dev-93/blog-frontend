@@ -1,27 +1,45 @@
 import { Button } from 'antd';
 import Link from 'next/link';
-import React from 'react';
+import { useState } from 'react';
 import styled from "styled-components";
 import palette from '../../styles/palette';
 
-const AuthForm = ({type, form, onChange, onSubmit, error}:any) => { 
+type Props = {
+    type: string;
+};
+
+const AuthForm = ({type}: Props) => { 
+    const text = ( type === "login" ) ? "로그인" : "회원가입";
+    const [id, setId] = useState('');
+    const [password, setPassword] = useState('');
+
+    const onChange = (e: any) => {
+        // e 값을 무엇으로 설정해야할까요?
+        // 일단 모를떄는 any 로 설정합니다.
+    };
+    
+    const handleSubmit = (e: any) => {
+        // 여기도 모르니까 any 로 하겠습니다.
+    };
+
+    console.log(id, password)
+
     return (
         <AuthFormBlock>
-            <h3>로그인</h3>
             <form>
                 <StyledInput 
                     autoComplete="username"
                     name="username"
                     placeholder="아이디"
+                    onChange={(e) => setId(e.target.value)}
                 />
                 <StyledInput 
                     autoComplete="new-password"
                     name="password"
                     placeholder="비밀번호"
                     type="password"
+                    onChange={(e) => setPassword(e.target.value)}
                 />
-
-                <Button type="primary">Primary Button</Button>
 
                 {type === 'register' && (
                     <StyledInput 
@@ -32,17 +50,19 @@ const AuthForm = ({type, form, onChange, onSubmit, error}:any) => {
                     />
                 )}
 
-                {error && <ErrorMessage>{error}</ErrorMessage>}
+                <Button className="login_bt" type="primary" block>{text}</Button>
+
+                {/* {error && <ErrorMessage>{error}</ErrorMessage>} */}
             </form>
             
             <Footer>
                 {type === 'login' ? (
                     <Link href="/register">
-                        <a>회원가입</a>
+                        <a>Go to register</a>
                     </Link>
                 ): (
                     <Link href="/login">
-                        <a>로그인</a>
+                        <a>Go to Login</a>
                     </Link>
                 )}
             </Footer>
@@ -62,6 +82,10 @@ const AuthFormBlock = styled.div`
         margin: 0;
         color: ${palette.gray[8]};
         margin-bottom: 1rem;
+    }
+
+    .login_bt {
+        margin-top: 1rem;
     }
 `;
 
