@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import AuthForm from '../components/AuthForm';
+import AuthForm from '../components/auth/AuthForm';
 import Button from '../components/common/Button';
 
 const Home = () => {

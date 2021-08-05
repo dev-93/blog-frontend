@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { todoStore } from '../store/todo';
+import { todoStore } from '../../store/todo';
 
 const TodoForm = () => {
   const setTodo = useSetRecoilState(todoStore);
