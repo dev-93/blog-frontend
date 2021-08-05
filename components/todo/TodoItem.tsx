@@ -1,5 +1,5 @@
 import { useSetRecoilState} from "recoil";
-import {Todo, todoStore} from "../store/todo";
+import { Todo, todoStore } from "../../store/todo";
 
 interface Props {
     data: Todo;
@@ -10,7 +10,6 @@ const TodoItem = ({data}:Props) => {
 
     const removeItem = () => {
         setTodo((todo) => {
-            console.log(todo);
             const newTodo = [...todo];
             const index = todo.findIndex((v) => v.id ===data.id);
             if (index !== -1) {
