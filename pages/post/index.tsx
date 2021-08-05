@@ -1,18 +1,17 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Button from '../../components/common/Button';
 
 const Post = () => {
     return (
         <Wrap>
-            <Button>hello</Button>
+            <div>hello</div>
         </Wrap>
     )
 };
 
 const Wrap = styled.div`
-    background: blue;
+    background: skyblue;
 `; 
 
 export default Post;
