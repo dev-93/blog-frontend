@@ -5,6 +5,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from "styled-components";
 import { loginForm, registerForm } from '../../store/auth';
 import palette from '../../styles/palette';
+import agent from "../../agent";
 
 type Props = {
     type: string;
@@ -37,18 +38,22 @@ const AuthForm = ({type}: Props) => {
     };
 
     const onSubmit = () => {
-        type === "login" ? (
-            setLogin({
-                username: '',
-                password: '',
-            })
-        ) : (
-            setRegister({
-                username: '',
-                password: '',
-                passwordConfirm: '',
-            })
-        )
+        console.log(login);
+        agent.User.login(login)
+            .then((data:any) => console.log(data))
+            .catch((e:any) => console.log(e));
+        // type === "login" ? (
+        //     setLogin({
+        //         username: '',
+        //         password: '',
+        //     })
+        // ) : (
+        //     setRegister({
+        //         username: '',
+        //         password: '',
+        //         passwordConfirm: '',
+        //     })
+        // )
     }
 
     return (

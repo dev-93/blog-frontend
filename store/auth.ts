@@ -7,7 +7,7 @@ export interface Form {
 }
 
 export const loginForm = atom<Form>({
-    key: 'loginForm',
+    key: 'loginState',
     default: {
         username: '',
         password: '',
@@ -15,7 +15,7 @@ export const loginForm = atom<Form>({
 });
 
 export const registerForm = atom<Form>({
-    key: 'registerForm',
+    key: 'registerState',
     default: {
         username: '',
         password: '',
