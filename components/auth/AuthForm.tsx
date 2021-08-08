@@ -13,11 +13,12 @@ type Props = {
 const AuthForm = ({type}: Props) => { 
     const text = ( type === "login" ) ? "로그인" : "회원가입";
     const [login, setLogin] = useRecoilState(loginForm);
+    const [isError, setIsError] = useState('');
     const [register, setRegister] = useRecoilState(registerForm);
     const registerValue = useRecoilValue(registerForm);
     const logingValue = useRecoilValue(loginForm);
 
-    console.log(registerValue);
+    // console.log(registerValue);
     console.log(logingValue);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,36 +36,75 @@ const AuthForm = ({type}: Props) => {
         console.log(e);
     };
 
+    const onSubmit = () => {
+        type === "login" ? (
+            setLogin({
+                username: '',
+                password: '',
+            })
+        ) : (
+            setRegister({
+                username: '',
+                password: '',
+                passwordConfirm: '',
+            })
+        )
+    }
+
     return (
         <AuthFormBlock>
-            <form onSubmit={handleSubmit}>
-                <StyledInput 
-                    autoComplete="username"
-                    name="username"
-                    placeholder="아이디"
-                    onChange={onChange}
-                />
-                <StyledInput 
-                    autoComplete="new-password"
-                    name="password"
-                    placeholder="비밀번호"
-                    type="password"
-                    onChange={onChange}
-                />
-
-                {type === 'register' && (
-                    <StyledInput 
-                        autoComplete="new-password"
-                        name="passwordConfirm"
-                        placeholder="비밀번호 확인"
-                        type="password"
-                        onChange={onChange}
-                    />
+            {/* <form onSubmit={handleSubmit}> */}
+            <form>
+                {type === 'login' ? (
+                    <>
+                        <StyledInput 
+                            autoComplete="username"
+                            name="username"
+                            placeholder="아이디"
+                            onChange={onChange}
+                            value={logingValue.username}
+                        />
+                        <StyledInput 
+                            autoComplete="new-password"
+                            name="password"
+                            placeholder="비밀번호"
+                            type="password"
+                            onChange={onChange}
+                            value={logingValue.password}
+                        />
+                    </>
+                ) : (
+                    <>
+                        <StyledInput 
+                            autoComplete="username"
+                            name="username"
+                            placeholder="아이디"
+                            onChange={onChange}
+                            value={registerValue.username}
+                        />
+                        <StyledInput 
+                            autoComplete="new-password"
+                            name="password"
+                            placeholder="비밀번호"
+                            type="password"
+                            onChange={onChange}
+                            value={registerValue.password}
+                        />
+                        <StyledInput 
+                            autoComplete="new-password"
+                            name="passwordConfirm"
+                            placeholder="비밀번호 확인"
+                            type="password"
+                            onChange={onChange}
+                            value={registerValue.passwordConfirm}
+                        />
+                    </>
+                    
                 )}
 
-                <Button className="login_bt" type="primary" block>{text}</Button>
+                <Button className="login_bt" type="primary" block onClick={onSubmit}>{text}</Button>
 
-                {/* {error && <ErrorMessage>{error}</ErrorMessage>} */}
+                {isError && <ErrorMessage>{isError}</ErrorMessage>}
             </form>
             
             <Footer>
