@@ -20,7 +20,7 @@ const AuthForm = ({type}: Props) => {
     const logingValue = useRecoilValue(loginForm);
 
     // console.log(registerValue);
-    console.log(logingValue);
+    // console.log(logingValue);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
