@@ -1,11 +1,13 @@
 import { Button } from 'antd';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from "styled-components";
 import { loginForm, registerForm } from '../../store/auth';
 import palette from '../../styles/palette';
 import agent from "../../agent";
+import { fetchJson, useUser } from '../../util';
+import useSWR from 'swr';
 
 type Props = {
     type: string;
@@ -13,57 +15,37 @@ type Props = {
 
 const AuthForm = ({type}: Props) => { 
     const text = ( type === "login" ) ? "로그인" : "회원가입";
-    const [login, setLogin] = useRecoilState(loginForm);
+    const [form, setForm] = useRecoilState(loginForm);
     const [isError, setIsError] = useState(false);
     const [register, setRegister] = useRecoilState(registerForm);
     const registerValue = useRecoilValue(registerForm);
     const logingValue = useRecoilValue(loginForm);
+    const { user, mutateUser } = useUser();
+    // const { data: test } = useSWR(() => user?.isLoggedIn ? "/api/user" : null);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
 
         type === "login" ? (
-            setLogin({...login, [name]: value})
+            setForm({...form, [name]: value})
         ) : (
             setRegister({...register, [name]: value})
         )
     };
 
-    const onSubmit = () => {
-        agent.Auth.login(login)
-            .then((data:string) => {
-                 type === "login" ? (
-                    setLogin({
-                        username: '',
-                        password: '',
-                    })
-                ) : (
-                    setRegister({
-                        username: '',
-                        password: '',
-                        passwordConfirm: '',
-                    })
-                )
-
-                setIsError(false);
-            })
-            .catch((error:object) => {
-                setIsError(true);
-            })
-            .finally(
-                type === "login" ? (
-                    setLogin({
-                        username: '',
-                        password: '',
-                    })
-                ) : (
-                    setRegister({
-                        username: '',
-                        password: '',
-                        passwordConfirm: '',
-                    })
-                )
-            )
+    const onSubmit = async() => {
+        try {
+            mutateUser(
+              await fetchJson("/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(form),
+              }),
+            );
+        } catch (error) {
+            console.error("An unexpected error happened:", error);
+            // setErrorMsg(error.data.message);
+        }
     }
 
     return (
@@ -116,7 +98,7 @@ const AuthForm = ({type}: Props) => {
                     
                 )}
 
-                <Button className="login_bt" type="primary" block onClick={onSubmit}>{text}</Button>
+                <Button className="login_bt" type="primary" block onClick={(e) => onSubmit()}>{text}</Button>
 
                 {isError && <ErrorMessage>아이디 혹은 비밀번호 확인해주세요</ErrorMessage>}
             </form>
