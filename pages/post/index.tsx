@@ -2,7 +2,12 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const Post = () => {
+type DataProps = {
+    data: string[]
+  };
+
+const Post = ({data}: DataProps) => {
+    console.log(data);
     return (
         <Wrap>
             <div>hello</div>
@@ -17,7 +22,6 @@ const Wrap = styled.div`
 export async function getStaticProps() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_ENV_VARIABLE}/api/posts`);
     const data = await res.json();
-
 
     if (!data) {
         return {

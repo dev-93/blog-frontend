@@ -19,9 +19,6 @@ const AuthForm = ({type}: Props) => {
     const registerValue = useRecoilValue(registerForm);
     const logingValue = useRecoilValue(loginForm);
 
-    // console.log(registerValue);
-    // console.log(logingValue);
-
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
 
@@ -42,6 +39,8 @@ const AuthForm = ({type}: Props) => {
         agent.User.login(login)
             .then((data:any) => console.log(data))
             .catch((e:any) => console.log(e));
+
+
         // type === "login" ? (
         //     setLogin({
         //         username: '',
