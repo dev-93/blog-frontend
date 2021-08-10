@@ -14,7 +14,7 @@ type Props = {
 const AuthForm = ({type}: Props) => { 
     const text = ( type === "login" ) ? "로그인" : "회원가입";
     const [login, setLogin] = useRecoilState(loginForm);
-    const [isError, setIsError] = useState('');
+    const [isError, setIsError] = useState(false);
     const [register, setRegister] = useRecoilState(registerForm);
     const registerValue = useRecoilValue(registerForm);
     const logingValue = useRecoilValue(loginForm);
@@ -28,36 +28,46 @@ const AuthForm = ({type}: Props) => {
             setRegister({...register, [name]: value})
         )
     };
-    
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log(e);
-    };
 
     const onSubmit = () => {
-        console.log(login);
-        agent.User.login(login)
-            .then((data:any) => console.log(data))
-            .catch((e:any) => console.log(e));
+        agent.Auth.login(login)
+            .then((data:string) => {
+                 type === "login" ? (
+                    setLogin({
+                        username: '',
+                        password: '',
+                    })
+                ) : (
+                    setRegister({
+                        username: '',
+                        password: '',
+                        passwordConfirm: '',
+                    })
+                )
 
-
-        // type === "login" ? (
-        //     setLogin({
-        //         username: '',
-        //         password: '',
-        //     })
-        // ) : (
-        //     setRegister({
-        //         username: '',
-        //         password: '',
-        //         passwordConfirm: '',
-        //     })
-        // )
+                setIsError(false);
+            })
+            .catch((error:object) => {
+                setIsError(true);
+            })
+            .finally(
+                type === "login" ? (
+                    setLogin({
+                        username: '',
+                        password: '',
+                    })
+                ) : (
+                    setRegister({
+                        username: '',
+                        password: '',
+                        passwordConfirm: '',
+                    })
+                )
+            )
     }
 
     return (
         <AuthFormBlock>
-            {/* <form onSubmit={handleSubmit}> */}
             <form>
                 {type === 'login' ? (
                     <>
@@ -108,7 +118,7 @@ const AuthForm = ({type}: Props) => {
 
                 <Button className="login_bt" type="primary" block onClick={onSubmit}>{text}</Button>
 
-                {isError && <ErrorMessage>{isError}</ErrorMessage>}
+                {isError && <ErrorMessage>아이디 혹은 비밀번호 확인해주세요</ErrorMessage>}
             </form>
             
             <Footer>

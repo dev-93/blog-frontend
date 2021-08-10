@@ -58,7 +58,7 @@ const requests = {
             .then(responseBody),
 };
 
-const User = {
+const Auth = {
     current: () =>
         requests.get('/user'),
     emailCheck: (email) =>
@@ -66,9 +66,9 @@ const User = {
     regist: userInfo =>
         requests.post('/login/user', userInfo),
     login: (data) =>
-        requests.post(`/login`, data),
+        requests.post(`/auth/login`, data),
 };
 
 export default {
-    User,
+    Auth,
 };
