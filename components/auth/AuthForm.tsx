@@ -1,52 +1,25 @@
 import { Button } from 'antd';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from "styled-components";
 import { loginForm, registerForm } from '../../store/auth';
 import palette from '../../styles/palette';
-import agent from "../../agent";
-import { fetchJson, useUser } from '../../util';
-import useSWR from 'swr';
+import { useUser } from '../../util';
 
 type Props = {
     type: string;
+    form: object
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onSubmit: () => void;
+    state: {username: string, password: string, passwordConfirm?: string};
+    isError: boolean;
 };
 
-const AuthForm = ({type}: Props) => { 
+const AuthForm = ({type, form, onChange, onSubmit, state, isError}: Props) => { 
     const text = ( type === "login" ) ? "로그인" : "회원가입";
-    const [form, setForm] = useRecoilState(loginForm);
-    const [isError, setIsError] = useState(false);
-    const [register, setRegister] = useRecoilState(registerForm);
-    const registerValue = useRecoilValue(registerForm);
-    const logingValue = useRecoilValue(loginForm);
-    const { user, mutateUser } = useUser();
-    // const { data: test } = useSWR(() => user?.isLoggedIn ? "/api/user" : null);
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { value, name } = e.target;
-
-        type === "login" ? (
-            setForm({...form, [name]: value})
-        ) : (
-            setRegister({...register, [name]: value})
-        )
-    };
-
-    const onSubmit = async() => {
-        try {
-            mutateUser(
-              await fetchJson("/api/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form),
-              }),
-            );
-        } catch (error) {
-            console.error("An unexpected error happened:", error);
-            // setErrorMsg(error.data.message);
-        }
-    }
+    console.log(state);
 
     return (
         <AuthFormBlock>
@@ -58,7 +31,7 @@ const AuthForm = ({type}: Props) => {
                             name="username"
                             placeholder="아이디"
                             onChange={onChange}
-                            value={logingValue.username}
+                            value={state.username}
                         />
                         <StyledInput 
                             autoComplete="new-password"
@@ -66,7 +39,7 @@ const AuthForm = ({type}: Props) => {
                             placeholder="비밀번호"
                             type="password"
                             onChange={onChange}
-                            value={logingValue.password}
+                            value={state.password}
                         />
                     </>
                 ) : (
@@ -76,7 +49,7 @@ const AuthForm = ({type}: Props) => {
                             name="username"
                             placeholder="아이디"
                             onChange={onChange}
-                            value={registerValue.username}
+                            value={state.username}
                         />
                         <StyledInput 
                             autoComplete="new-password"
@@ -84,7 +57,7 @@ const AuthForm = ({type}: Props) => {
                             placeholder="비밀번호"
                             type="password"
                             onChange={onChange}
-                            value={registerValue.password}
+                            value={state.password}
                         />
                         <StyledInput 
                             autoComplete="new-password"
@@ -92,7 +65,7 @@ const AuthForm = ({type}: Props) => {
                             placeholder="비밀번호 확인"
                             type="password"
                             onChange={onChange}
-                            value={registerValue.passwordConfirm}
+                            value={state.passwordConfirm}
                         />
                     </>
                     
