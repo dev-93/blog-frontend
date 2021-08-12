@@ -63,8 +63,8 @@ const Auth = {
         requests.get('/user'),
     emailCheck: (email) =>
         requests.get(`/login/email/${email}`),
-    regist: userInfo =>
-        requests.post('/login/user', userInfo),
+    regist: (data) =>
+        requests.post('/auth/register', data),
     login: (data) =>
         requests.post(`/auth/login`, data),
 };

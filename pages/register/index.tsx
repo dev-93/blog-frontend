@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { AuthForm, AuthTemplate } from "../../components/auth";
-import { loginForm, registerForm } from "../../store/auth";
+import { registerForm } from "../../store/auth";
 import { fetchJson, useUser } from "../../util";
 
 const Register = () => {
@@ -36,7 +36,6 @@ const Register = () => {
             <AuthTemplate>
                 <AuthForm 
                     type="register"
-                    form ={form}
                     onChange={onChange}
                     onSubmit={onSubmit}
                     state={registerValue}

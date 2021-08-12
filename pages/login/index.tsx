@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { AuthForm, AuthTemplate } from "../../components/auth";
-import { loginForm, registerForm } from "../../store/auth";
+import { loginForm } from "../../store/auth";
 import { fetchJson, useUser } from "../../util";
 
 const Login = () => {
@@ -29,14 +29,13 @@ const Login = () => {
         } catch (error) {
             setIsError(true);
         }
-    }
+    };
 
     return (
         <Wrap>
             <AuthTemplate>
                 <AuthForm 
                     type="login"
-                    form ={form}
                     onChange={onChange}
                     onSubmit={onSubmit}
                     state={loginState}
@@ -44,7 +43,7 @@ const Login = () => {
                 />
             </AuthTemplate>
         </Wrap>
-    )
+    );
 };
 
 const Wrap = styled.div`

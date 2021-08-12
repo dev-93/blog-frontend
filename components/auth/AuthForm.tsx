@@ -1,22 +1,19 @@
 import { Button } from 'antd';
 import Link from 'next/link';
-import React, { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import React from 'react';
 import styled from "styled-components";
-import { loginForm, registerForm } from '../../store/auth';
+import { Form } from '../../store/auth';
 import palette from '../../styles/palette';
-import { useUser } from '../../util';
 
 type Props = {
     type: string;
-    form: object
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onSubmit: () => void;
-    state: {username: string, password: string, passwordConfirm?: string};
+    state: Form;
     isError: boolean;
 };
 
-const AuthForm = ({type, form, onChange, onSubmit, state, isError}: Props) => { 
+const AuthForm = ({type, onChange, onSubmit, state, isError}: Props) => { 
     const text = ( type === "login" ) ? "로그인" : "회원가입";
 
     console.log(state);

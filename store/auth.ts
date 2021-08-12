@@ -1,9 +1,9 @@
 import { atom } from 'recoil';
 
 export interface Form {
-    username: string | number;
-    password: string | number;
-    passwordConfirm?: string | number;
+    username: string;
+    password: string;
+    passwordConfirm?: string;
 }
 
 export const loginForm = atom<Form>({
