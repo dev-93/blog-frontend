@@ -1,15 +1,20 @@
 import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
+import agent from "../../agent";
 import { AuthForm, AuthTemplate } from "../../components/auth";
 import { registerForm } from "../../store/auth";
-import { fetchJson, useUser } from "../../util";
+
+type Data = {
+    _id: string,
+    username: string,
+    __v: number | string
+};
 
 const Register = () => {
     const [form, setForm] = useRecoilState(registerForm);
-    const [isError, setIsError] = useState(false);
+    const [isError, setIsError] = useState('');
     const registerValue = useRecoilValue(registerForm);
-    const { user, mutateUser } = useUser();
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
@@ -18,17 +23,21 @@ const Register = () => {
     };
 
     const onSubmit = async() => {
-        try {
-            mutateUser(
-              await fetchJson("/api/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form),
-              }),
-            ).then(() => setIsError(true));
-        } catch (error) {
-            setIsError(true);
+        if (form.password !== form.passwordConfirm) {
+            setIsError("비밀번호가 같지 않습니다");
+        } else {
+            setIsError('');
         }
+        agent.Auth.regist({
+            username: form.username,
+            password: form.password
+        })
+        .then((data:Data) => console.log(data))
+        .catch((err:any)=> {
+            if(err.response.status === 409) {
+                setIsError('이미 있는 아이디 입니다.');                
+            }
+        })
     }
 
     return (

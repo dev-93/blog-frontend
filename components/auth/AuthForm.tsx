@@ -10,13 +10,13 @@ type Props = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onSubmit: () => void;
     state: Form;
-    isError: boolean;
+    isError: boolean | string;
 };
 
 const AuthForm = ({type, onChange, onSubmit, state, isError}: Props) => { 
     const text = ( type === "login" ) ? "로그인" : "회원가입";
 
-    console.log(state);
+    console.log(isError);
 
     return (
         <AuthFormBlock>
@@ -70,7 +70,7 @@ const AuthForm = ({type, onChange, onSubmit, state, isError}: Props) => {
 
                 <Button className="login_bt" type="primary" block onClick={(e) => onSubmit()}>{text}</Button>
 
-                {isError && <ErrorMessage>아이디 혹은 비밀번호 확인해주세요</ErrorMessage>}
+                {isError && <ErrorMessage>{isError ? isError : "아이디 혹은 비밀번호 확인해주세요"}</ErrorMessage>}
             </form>
             
             <Footer>

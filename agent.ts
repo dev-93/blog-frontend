@@ -18,6 +18,8 @@ const handleErrors = err => {
 const responseBody = res => res.body ?? res.text;
 
 const tokenPlugin = req => {
+
+    // console.log(req);
     
     // const CommonStore = useCommonStore();
 
