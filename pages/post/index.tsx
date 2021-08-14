@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Header from '../../components/common/Header';
+import HeaderContainer from '../../components/common/HeaderContainer';
 
 type DataProps = {
     data: string[]
@@ -11,7 +11,7 @@ const Post = ({data}: DataProps) => {
     console.log(data);
     return (
         <Wrap>
-            <Header/>
+            <HeaderContainer/>
             <div>hello</div>
         </Wrap>
     )

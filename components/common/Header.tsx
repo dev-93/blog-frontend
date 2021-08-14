@@ -5,7 +5,8 @@ import styled from "styled-components";
 import Responsive from './Responsive';
 
 type User = {
-    username: string
+    username: string,
+    isLoggedIn: boolean
 }
 
 type State = {
@@ -23,7 +24,7 @@ const Header = ({ user, onLogout, onLogin }: State) => {
                         <a className="logo">TAENAM</a>
                     </Link>
                     {
-                        user ? (
+                        user?.isLoggedIn ? (
                             <div className="right">
                                 <UserInfo>{user.username}</UserInfo>
                                 <Button onClick={onLogout}>로그아웃</Button>
