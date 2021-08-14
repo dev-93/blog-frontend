@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 
 export interface Form {
     username: string;
@@ -21,4 +21,4 @@ export const registerForm = atom<Form>({
         password: '',
         passwordConfirm: '',
     }
-})
+});
