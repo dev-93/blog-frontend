@@ -10,7 +10,7 @@ import { fetchJson, useUser } from "../../util";
 const Login = () => {
     const router = useRouter();
     const [form, setForm] = useRecoilState(loginForm);
-    const [isError, setIsError] = useState(false);
+    const [isError, setIsError] = useState('');
     const loginState = useRecoilValue(loginForm);
     const { user, mutateUser } = useUser();
 
@@ -21,6 +21,18 @@ const Login = () => {
     };
 
     const onSubmit = async() => {
+        if(!form.username || !form.password) {
+            if (!form.username) {
+                setIsError("아이디를 입력해주세요");
+                return;
+            }
+
+            if (!form.password) {
+                setIsError("비밀번호를 입력해주세요");
+                return;
+            }
+        }
+
         try {
             mutateUser(
               await fetchJson("/api/login", {
@@ -28,9 +40,11 @@ const Login = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form),
               }),
-            ).then(() => setIsError(true));
+            ).then(() => setIsError(''));
         } catch (error) {
-            setIsError(true);
+            if (error.response.status === 500) {
+                setIsError("아이디 또는 비밀번호 확인해주세요");
+            }
         }
     };
 
