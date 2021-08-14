@@ -12,7 +12,7 @@ const HeaderContainer = () => {
     };
 
     const onLogin = () => {
-        console.log("login");
+        router.push('/login')
     };
 
     return <Header user={user} onLogout={onLogout} onLogin={onLogin}/>;
