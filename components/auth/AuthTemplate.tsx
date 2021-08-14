@@ -4,9 +4,9 @@ import Link from 'next/link';
 
 type Props = { 
     children: React.ReactNode
- }
+}
 
-const AuthTemplate = (children: Props) => {
+const AuthTemplate = ({children}:Props) => {
     return (
         <AuthTemplateBlock>
             <WhiteBox>
