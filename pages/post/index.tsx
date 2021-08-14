@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import Header from '../../components/common/Header';
 
 type DataProps = {
     data: string[]
-  };
+};
 
 const Post = ({data}: DataProps) => {
     console.log(data);
     return (
         <Wrap>
+            <Header/>
             <div>hello</div>
         </Wrap>
     )
