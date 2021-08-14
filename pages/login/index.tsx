@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { message } from "antd";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { AuthForm, AuthTemplate } from "../../components/auth";
@@ -6,6 +8,7 @@ import { loginForm } from "../../store/auth";
 import { fetchJson, useUser } from "../../util";
 
 const Login = () => {
+    const router = useRouter();
     const [form, setForm] = useRecoilState(loginForm);
     const [isError, setIsError] = useState(false);
     const loginState = useRecoilValue(loginForm);
@@ -30,6 +33,14 @@ const Login = () => {
             setIsError(true);
         }
     };
+
+    useEffect(() => {
+        if (user?.isLoggedIn) {
+            message.info('현재 로그인이 되어 포스트 페이지로 이동합니다');
+    
+            router.replace('/post');
+        }
+    },[user?.isLoggedIn]);
 
     return (
         <Wrap>
