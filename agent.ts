@@ -1,13 +1,13 @@
 import superagentPromise from 'superagent-promise';
 import _superagent from 'superagent';
 import { CommonStore } from './store/common';
+import { Form } from './store/auth';
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
 const API_ROOT = `${process.env.NEXT_PUBLIC_ENV_VARIABLE}/api`;
-const KMC_ROOT = `${process.env.REACT_APP_KMC_ROOT}`;
 
-const handleErrors = err => {
+const handleErrors = (err: any) => {
     if (err && err.response && err.response.status === 401) {
         console.log(err);
     }
@@ -15,9 +15,9 @@ const handleErrors = err => {
     return err;
 };
 
-const responseBody = res => res.body ?? res.text;
+const responseBody = (res: any) => res.body ?? res.text;
 
-const tokenPlugin = req => {
+const tokenPlugin = (req: any) => {
 
     // console.log(req);
     
@@ -28,34 +28,31 @@ const tokenPlugin = req => {
     // }
 };
 
+type Url = string;
+
 const requests = {
-    del: url =>
+    del: (url:Url) =>
         superagent
             .del(`${API_ROOT}${url}`)
             .use(tokenPlugin)
             .end(handleErrors)
             .then(responseBody),
-    get: url =>
+    get: (url:Url) =>
         superagent
             .get(`${API_ROOT}${url}`)
             .use(tokenPlugin)
             .end(handleErrors)
             .then(responseBody),
-    put: (url, body) =>
+    put: (url: Url, body: object) =>
         superagent
             .put(`${API_ROOT}${url}`, body)
             .use(tokenPlugin)
             .end(handleErrors)
             .then(responseBody),
-    post: (url, body) =>
+    post: (url: Url, body?: object) =>
         superagent
             .post(`${API_ROOT}${url}`, body)
             .use(tokenPlugin)
-            .end(handleErrors)
-            .then(responseBody),
-    kmc: params =>
-        superagent
-            .get(`${KMC_ROOT}?${params}`)
             .end(handleErrors)
             .then(responseBody),
 };
@@ -63,12 +60,14 @@ const requests = {
 const Auth = {
     current: () =>
         requests.get('/user'),
-    emailCheck: (email) =>
+    emailCheck: (email: string) =>
         requests.get(`/login/email/${email}`),
-    regist: (data) =>
+    regist: (data: Form) =>
         requests.post('/auth/register', data),
-    login: (data) =>
+    login: (data: Form) =>
         requests.post(`/auth/login`, data),
+    logout: () =>
+        requests.post(`/auth/logout`),
 };
 
 export default {
