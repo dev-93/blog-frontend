@@ -1,6 +1,5 @@
-### 이 프로젝트는 Next.js + typescript로 만들어졌습니다
-
-### url: https://blog-frontend-lilac-chi.vercel.app/
+# 이 프로젝트는 Next.js + typescript로 만들어졌습니다
+# url: https://blog-frontend-lilac-chi.vercel.app/
 
 ## 패키지 매니저 도구: yarn
 ## 상태관리: Recoil
