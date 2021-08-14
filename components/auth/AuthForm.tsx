@@ -16,7 +16,11 @@ type Props = {
 const AuthForm = ({type, onChange, onSubmit, state, isError}: Props) => { 
     const text = ( type === "login" ) ? "로그인" : "회원가입";
 
-    console.log(isError);
+    const onkeyPress = (key: string) => {
+        if (key==="Enter") {
+            onSubmit();            
+        }
+    }
 
     return (
         <AuthFormBlock>
@@ -37,6 +41,7 @@ const AuthForm = ({type, onChange, onSubmit, state, isError}: Props) => {
                             type="password"
                             onChange={onChange}
                             value={state.password}
+                            onKeyPress={(e) => onkeyPress(e.key)}
                         />
                     </>
                 ) : (
