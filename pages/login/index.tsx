@@ -1,7 +1,7 @@
 import { message } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import styled from "styled-components";
 import { AuthForm, AuthTemplate } from "../../components/auth";
 import { loginForm } from "../../store/auth";
@@ -11,8 +11,18 @@ const Login = () => {
     const router = useRouter();
     const [form, setForm] = useRecoilState(loginForm);
     const [isError, setIsError] = useState('');
-    const loginState = useRecoilValue(loginForm);
+    const loginValue = useRecoilValue(loginForm);
     const { user, mutateUser } = useUser();
+
+    const resetLoginState = useResetRecoilState(loginForm);
+
+    useEffect(() => {
+        if (user?.isLoggedIn) {
+            message.info('현재 로그인이 되어 포스트 페이지로 이동합니다');
+    
+            router.replace('/post');
+        }
+    },[user?.isLoggedIn]);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
@@ -40,21 +50,16 @@ const Login = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form),
               }),
-            ).then(() => setIsError(''));
+            ).then(() => {
+                setIsError('');
+                resetLoginState();
+            });
         } catch (error) {
             if (error.response.status === 500) {
                 setIsError("아이디 또는 비밀번호 확인해주세요");
             }
         }
     };
-
-    useEffect(() => {
-        if (user?.isLoggedIn) {
-            message.info('현재 로그인이 되어 포스트 페이지로 이동합니다');
-    
-            router.replace('/post');
-        }
-    },[user?.isLoggedIn]);
 
     return (
         <Wrap>
@@ -63,7 +68,7 @@ const Login = () => {
                     type="login"
                     onChange={onChange}
                     onSubmit={onSubmit}
-                    state={loginState}
+                    state={loginValue}
                     isError={isError}
                 />
             </AuthTemplate>

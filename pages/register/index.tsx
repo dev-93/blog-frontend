@@ -1,7 +1,7 @@
 import { message } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import styled from "styled-components";
 import agent from "../../agent";
 import { AuthForm, AuthTemplate } from "../../components/auth";
@@ -20,6 +20,8 @@ const Register = () => {
     const [isError, setIsError] = useState('');
     const registerValue = useRecoilValue(registerForm);
     const { user, mutateUser } = useUser();
+
+    const resetRegisterState = useResetRecoilState(registerForm);
 
     useEffect(() => {
         if (user?.isLoggedIn) {
@@ -76,7 +78,10 @@ const Register = () => {
                         password: form.password
                     }),
                   }),
-                ).then(() => setIsError(''));
+                ).then(() => {
+                    setIsError('');
+                    resetRegisterState();
+                });
             } catch (error) {
                 console.log(error)
             }
