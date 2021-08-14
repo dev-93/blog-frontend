@@ -2,7 +2,11 @@ import styled from 'styled-components';
 import palette from '../../styles/palette';
 import Link from 'next/link';
 
-const AuthTemplate = ({children}:any) => {
+type Props = { 
+    children: React.ReactNode
+ }
+
+const AuthTemplate = (children: Props) => {
     return (
         <AuthTemplateBlock>
             <WhiteBox>
