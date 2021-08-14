@@ -3,7 +3,7 @@ import palette from '../../styles/palette';
 import Link from 'next/link';
 
 type Props = { 
-    children: React.ReactNode
+    children?: React.ReactNode
 }
 
 const AuthTemplate = ({children}:Props) => {
