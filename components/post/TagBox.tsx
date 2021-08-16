@@ -82,8 +82,8 @@ const TagBox = ({tags, onChangeTags}: TagsType) => {
                 <button type="submit">추가</button>
             </TagForm>
             {
-                !localTags ? (
-                    <div>tag가 없습니다</div>
+                !localTags.length ? (
+                    <div>tag를 선택해주세요</div>
                 ) : (
                     <TagList tags={localTags} onRemove={onRemove} />
                 )
