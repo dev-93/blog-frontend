@@ -3,7 +3,6 @@ import styled from "styled-components";
 import 'quill/dist/quill.bubble.css';
 import Responsive from '../common/Responsive';
 import palette from '../../styles/palette';
-import "react-quill/dist/quill.snow.css";
 
 type TextChange = {
     delta?: string,
@@ -42,7 +41,7 @@ const Editor = ({ title, body, onChangeField}:Editor) => {
             },
         });
 
-        const quill = quillInstance.current;
+        const quill = quillInstance?.current;
 
         quill.on('text-change', ({delta, oldDelta, source}:TextChange) => {
             onChangeField({key: 'body', value: quill.root.innerHTML});

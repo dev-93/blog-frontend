@@ -3,23 +3,35 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import Responsive from '../../../components/common/Responsive';
 import Editor, { EditorValue } from '../../../components/post/Editor';
-import { editorForm } from '../../../store/post';
+import TagBox from '../../../components/post/TagBox';
+import { editorForm, tagForm } from '../../../store/post';
 
 const Post = () => {
     const [editor , setEditor] = useRecoilState(editorForm);
+    const [tagsForm , setTagsForm] = useRecoilState(tagForm);
 
     const onChangeField = ({key, value}:EditorValue) => {
         setEditor({...editor, [key]: value});
     };
-    
-    console.log(editor);
 
+    const onChangeTags = (e:any) => {
+        // setTagsForm({
+        //     tag: ['22']
+        // })
+    };
+
+    // console.log(editor,tagsForm)
+    
     return (
         <Responsive>
             <Editor 
                 title={editor.title}
                 body={editor.body}
                 onChangeField={onChangeField}
+            />
+            <TagBox
+                tags={tagsForm.tag}
+                onChangeTags={onChangeTags}
             />
         </Responsive>
     )
