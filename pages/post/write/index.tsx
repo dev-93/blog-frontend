@@ -1,27 +1,29 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import Responsive from '../../../components/common/Responsive';
-import Editor from '../../../components/post/Editor';
+import Editor, { EditorValue } from '../../../components/post/Editor';
+import { editorForm } from '../../../store/post';
 
 const Post = () => {
-    const onChangeField = () => {
-        
+    const [editor , setEditor] = useRecoilState(editorForm);
+
+    const onChangeField = ({key, value}:EditorValue) => {
+        setEditor({...editor, [key]: value});
     };
+    
+    console.log(editor);
 
     return (
         <Responsive>
             <Editor 
-                title={"test"}
-                body={"test"}
+                title={editor.title}
+                body={editor.body}
                 onChangeField={onChangeField}
             />
         </Responsive>
     )
 };
-
-const Wrap = styled.div`
-    background: skyblue;
-`; 
 
 export async function getStaticProps() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_ENV_VARIABLE}/api/posts`);
@@ -34,7 +36,7 @@ export async function getStaticProps() {
     }
   
     return {
-      props: { data }, // will be passed to the page component as props
+        props: { data }, // will be passed to the page component as props
     }
 }
 

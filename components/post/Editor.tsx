@@ -3,8 +3,7 @@ import styled from "styled-components";
 import 'quill/dist/quill.bubble.css';
 import Responsive from '../common/Responsive';
 import palette from '../../styles/palette';
-
-const Quill = typeof window === 'object' ? require('quill') : () => false;
+import "react-quill/dist/quill.snow.css";
 
 type TextChange = {
     delta?: string,
@@ -20,8 +19,10 @@ export type EditorValue = {
 interface Editor {
     title:string;
     body:string;
-    onChangeField:({key,value}: EditorValue) => void;
+    onChangeField:({key, value}:EditorValue) => void;
 };
+
+const Quill = typeof window === 'object' ? require('quill') : () => false;
 
 const Editor = ({ title, body, onChangeField}:Editor) => {
     const quillElement = useRef(null);
@@ -40,25 +41,26 @@ const Editor = ({ title, body, onChangeField}:Editor) => {
                 ],
             },
         });
-    
+
         const quill = quillInstance.current;
 
         quill.on('text-change', ({delta, oldDelta, source}:TextChange) => {
-            if(source === "user") {
-                onChangeField({
-                    key: 'body',
-                    value: quill.root.innerHTML
-                });
-            }
+            onChangeField({key: 'body', value: quill.root.innerHTML});
         });
-    })
+    }, []);
+
+    const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onChangeField({
+            key: 'title',
+            value: e.target.value
+        });
+    };
 
     return (
         <EditorBlock>
             <TitleInput 
                 placeholder="제목을 입력하세요" 
-                // onChange={onChangeField} 
-                value={title}
+                onChange={onChangeTitle} 
             />
             <QuillWrapper>
                 <div ref={quillElement}/>
