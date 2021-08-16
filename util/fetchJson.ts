@@ -1,5 +1,8 @@
-export default async function fetchJson(...args) {
+export default async function fetchJson(...args:any[]) {
     try {
+
+      console.log(...args)
+
       const response = await fetch(...args);
   
       // if the server replies, there's always some data in json
@@ -10,7 +13,7 @@ export default async function fetchJson(...args) {
         return data;
       }
   
-      const error = new Error(response.statusText);
+      const error: any = new Error(response.statusText);
       error.response = response;
       error.data = data;
       throw error;
