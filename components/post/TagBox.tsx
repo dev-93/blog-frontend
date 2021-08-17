@@ -9,7 +9,7 @@ type TagType = {
 
 type TagsType = {
     tags: string[],
-    onRemove?: (tag?:string) => void,
+    onRemove?: (tag?:string[]) => void,
     onChangeTags?: (nextTags?:string[]) => void
 }
 
@@ -17,6 +17,8 @@ type TagsType = {
 const TagItem = React.memo(({tag, onRemove}: TagType)=> ( 
     <Tag onClick={() => onRemove(tag)}>#{tag}</Tag>
 ));
+
+TagItem.displayName = 'TagItem';
 
 // // tags값이 바뀔 때만 리렌더링되도록 처리
 const TagList = React.memo(({tags, onRemove}: TagsType)=> (
@@ -27,11 +29,13 @@ const TagList = React.memo(({tags, onRemove}: TagsType)=> (
     </TagListBlock>
 ));
 
+TagList.displayName = 'TagList';
+
 const TagBox = ({tags, onChangeTags}: TagsType) => {
     const [input, setInput] = useState('');
-    const [localTags, setLocalTags] = useState([]);
+    const [localTags, setLocalTags] = useState(tags);
 
-    console.log(localTags);
+    // console.log(localTags);
 
     useEffect(() => {
         setLocalTags(tags);
