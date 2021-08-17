@@ -59,7 +59,8 @@ const Editor = ({ title, body, onChangeField}:Editor) => {
         <EditorBlock>
             <TitleInput 
                 placeholder="제목을 입력하세요" 
-                onChange={onChangeTitle} 
+                onChange={onChangeTitle}
+                value={title}
             />
             <QuillWrapper>
                 <div ref={quillElement}/>
