@@ -14,13 +14,13 @@ const Post = () => {
         setEditor({...editor, [key]: value});
     };
 
-    const onChangeTags = (e:any) => {
-        // setTagsForm({
-        //     tag: ['22']
-        // })
+    const onChangeTags = (nextTags:any) => {
+        setTagsForm({
+            tags: nextTags
+        })
     };
 
-    // console.log(editor,tagsForm)
+    console.log(editor,tagsForm)
     
     return (
         <Responsive>
@@ -30,7 +30,7 @@ const Post = () => {
                 onChangeField={onChangeField}
             />
             <TagBox
-                tags={tagsForm.tag}
+                tags={tagsForm.tags}
                 onChangeTags={onChangeTags}
             />
         </Responsive>
