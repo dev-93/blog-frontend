@@ -35,8 +35,6 @@ const TagBox = ({tags, onChangeTags}: TagsType) => {
     const [input, setInput] = useState('');
     const [localTags, setLocalTags] = useState(tags);
 
-    // console.log(localTags);
-
     useEffect(() => {
         setLocalTags(tags);
     }, [tags]);

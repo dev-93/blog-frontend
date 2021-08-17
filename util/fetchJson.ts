@@ -1,8 +1,5 @@
 export default async function fetchJson(...args:any[]) {
     try {
-
-      console.log(...args)
-
       const response = await fetch(...args);
   
       // if the server replies, there's always some data in json
