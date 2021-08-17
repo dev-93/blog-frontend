@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
@@ -8,10 +9,12 @@ type DataProps = {
 };
 
 const Post = ({data}: DataProps) => {
-    console.log(data);
+    // console.log(data);
+    const router = useRouter();
     return (
         <Wrap>
             <HeaderContainer/>
+            <button onClick={() => router.push("/post/write")}>포스트 작성</button>
             <div>hello</div>
         </Wrap>
     )
