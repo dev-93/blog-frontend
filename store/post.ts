@@ -6,7 +6,7 @@ export interface Form {
 };
 
 export interface Tag {
-    tag: string[];
+    tags: string[];
 }
 
 export const editorForm = atom<Form>({
@@ -20,6 +20,6 @@ export const editorForm = atom<Form>({
 export const tagForm = atom<Tag>({
     key: 'tagState',
     default: {
-        tag: ['태그1', '태그2', '태그3'],
+        tags: ['태그1', '태그2', '태그3'],
     }
 });
