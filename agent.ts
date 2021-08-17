@@ -70,6 +70,12 @@ const Auth = {
         requests.post(`/auth/logout`),
 };
 
+const Blog = {
+    createBlog: (data: object) =>
+        requests.post('/posts', data),
+};
+
 export default {
     Auth,
+    Blog
 };
