@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from "styled-components";
 import 'quill/dist/quill.bubble.css';
 import Responsive from '../common/Responsive';
@@ -27,6 +27,15 @@ const Editor = ({ title, body, onChangeField}:Editor) => {
     const quillElement = useRef(null);
     const quillInstance = useRef(null);
 
+    const [bodyValue, setBodyValue] = useState({
+        key:'body',
+        value: '',
+    });
+
+    useEffect(() => {
+        onChangeField(bodyValue);
+    },[bodyValue]);
+
     useEffect(() => {
         quillInstance.current = new Quill(quillElement.current, {
             theme: 'bubble',
@@ -44,7 +53,10 @@ const Editor = ({ title, body, onChangeField}:Editor) => {
         const quill = quillInstance?.current;
 
         quill.on('text-change', ({delta, oldDelta, source}:TextChange) => {
-            onChangeField({key: 'body', value: quill.root.innerHTML});
+            setBodyValue({
+                ...bodyValue,
+                value: quill.root.innerHTML
+            });
         });
     }, []);
 
