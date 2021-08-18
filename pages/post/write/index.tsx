@@ -35,6 +35,16 @@ const Post = () => {
             tags: tagsForm.tags
         };
 
+        console.log(form);
+
+        if (!form.title) {
+            message.warn("제목을 입력해주세요!!");
+            return;
+        } else if (!form.body) {
+            message.warn("내용을 입력해주세요!!");
+            return;
+        }
+
         agent.Blog.createBlog({form})
             .then((data: any) => console.log(data))
             .catch((err: any) => {
@@ -42,14 +52,11 @@ const Post = () => {
 
                 if(err.response.status === 401) {
                     message.error("로그인이 필요합니다!!");
+                    return;
                 }
             })
 
-        if (!form.title) {
-            message.warn("제목을 입력해주세요!!");
-        } else if (!form.body) {
-            message.warn("내용을 입력해주세요!!");
-        }
+ 
 
         console.log(form);
     };
