@@ -20,6 +20,6 @@ export const editorForm = atom<Form>({
 export const tagForm = atom<Tag>({
     key: 'tagState',
     default: {
-        tags: ['태그1', '태그2', '태그3'],
+        tags: [],
     }
 });
