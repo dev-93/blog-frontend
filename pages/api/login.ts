@@ -5,7 +5,7 @@ export default withSession(async (req, res) => {
     const {username, password} = await req.body;
 
     try {
-        let user = await fetchJson(process.env.NEXT_PUBLIC_ENV_VARIABLE + '/api/auth/login', {
+        let result = await fetchJson(process.env.NEXT_PUBLIC_ENV_VARIABLE + '/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -16,9 +16,9 @@ export default withSession(async (req, res) => {
             }),
         });
 
-        req.session.set("user", user);
+        req.session.set("user", result.user);
         await req.session.save();
-        res.json(user);
+        res.json(result);
     } catch (error) {
         const { response: fetchResponse } = error;
         res.status(fetchResponse?.status || 500).json(error.data);

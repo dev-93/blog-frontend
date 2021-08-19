@@ -13,10 +13,15 @@ const Login = () => {
     const [isError, setIsError] = useState('');
     const loginValue = useRecoilValue(loginForm);
     const { user, mutateUser } = useUser();
+    const [token, setToken] = useState('');
 
     const resetLoginState = useResetRecoilState(loginForm);
 
     useEffect(() => {
+        if(user?.token) {
+            setToken(user.token);
+        };
+
         if (user?.isLoggedIn) {
             message.info('현재 로그인이 되어 포스트 페이지로 이동합니다');
     
@@ -50,15 +55,24 @@ const Login = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form),
               }),
-            ).then(() => {
+            ).then((data) => {
+                console.log(data, "data");
+                console.log(user);
+                setCookie("cookie", `access_token=${token}`, 7);
                 setIsError('');
-                resetLoginState();
+                // resetLoginState();
             });
         } catch (error) {
             if (error.response.status === 500) {
                 setIsError("아이디 또는 비밀번호 확인해주세요");
             }
         }
+    };
+
+    function setCookie(name: string, value: string, day: number) {
+        const date = new Date();
+        date.setTime(date.getTime() + day * 24 * 60 * 60 * 1000);
+        document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
     };
 
     return (
