@@ -1,26 +1,33 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
+import { DatasProps } from "../../pages/post";
 import palette from "../../styles/palette";
 import Responsive from "../common/Responsive";
 
-const PostList = () => {
+const PostList = ({datas}:DatasProps) => {
     return(
         <Wrap>
-            <PostHead>
-                <h1>제목</h1>
-                <SubInfo>
-                    <span>
-                        <b>tester</b>
-                    </span>
-                    <span>{new Date().toLocaleDateString()}</span>
-                </SubInfo>
-                <Tags>
-                    <div className="tag">#태그1</div>
-                    <div className="tag">#태그2</div>
-                    <div className="tag">#태그3</div>
-                </Tags>
-            </PostHead>
-            <PostContents dangerouslySetInnerHTML={{ __html: "<PHTML <b>내용</b>입니다.</P>" }}/>
+            {datas.map((post, index) => {
+                return (
+                    <Fragment key={post._id}>
+                        <PostHead>
+                            <h1>{post.title}</h1>
+                            <SubInfo>
+                                <span>
+                                    <b>tester</b>
+                                </span>
+                                <span>{new Date().toLocaleDateString()}</span>
+                            </SubInfo>
+                            <Tags>
+                                <div className="tag">#태그1</div>
+                                <div className="tag">#태그2</div>
+                                <div className="tag">#태그3</div>
+                            </Tags>
+                        </PostHead>
+                        <PostContents dangerouslySetInnerHTML={{ __html: "<PHTML <b>내용</b>입니다.</P>" }}/>
+                    </Fragment>
+                )
+            })}
         </Wrap>
     );
 };
