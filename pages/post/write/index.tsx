@@ -45,7 +45,7 @@ const Post = () => {
             return;
         }
 
-        agent.Blog.createBlog({form})
+        agent.Blog.createBlog(form)
             .then((data: any) => console.log(data))
             .catch((err: any) => {
                 console.log(err.response);

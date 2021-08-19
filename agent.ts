@@ -18,14 +18,17 @@ const handleErrors = (err: any) => {
 const responseBody = (res: any) => res.body ?? res.text;
 
 const tokenPlugin = (req: any) => {
+    const cookie = getCookie('cookie');
 
-    // console.log(req);
-    
-    // const CommonStore = useCommonStore();
-
-    // if (CommonStore.token) {
-    //     req.set('Authorization', `Bearer ${CommonStore.token}`);
+    // if (cookie) {
+    //     // req.set('cookie', `${cookie}`);
+    //     req.set("hello", "fuck")
     // }
+};
+
+function getCookie(name: string) {
+    const value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    return value ? value[2] : null;
 };
 
 type Url = string;
