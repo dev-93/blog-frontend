@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import { useRouter } from 'next/router';
 import React, {useEffect, useState} from 'react';
 import { useRecoilState } from 'recoil';
 import agent from '../../../agent';
@@ -9,12 +10,11 @@ import WriteActionButton from '../../../components/post/WriteActionButton';
 import { editorForm, tagForm } from '../../../store/post';
 
 const Post = () => {
+    const router = useRouter();
     const [editor , setEditor] = useRecoilState(editorForm);
     const [tagsForm , setTagsForm] = useRecoilState(tagForm);
 
     const onChangeField = ({key, value}:EditorValue) => {
-        // console.log({key, value});
-        // console.log({...editor})
         setEditor({...editor, [key]: value});
     };
 
@@ -25,7 +25,8 @@ const Post = () => {
     };
 
     const onCancel = () => {
-        console.log("onCancel")
+        router.push("/post");
+        resetForm();
     };
 
     const onPublish = () => {
@@ -34,8 +35,6 @@ const Post = () => {
             body: editor.body,
             tags: tagsForm.tags
         };
-
-        console.log(form);
 
         if (!form.title) {
             message.warn("제목을 입력해주세요!!");
@@ -46,7 +45,11 @@ const Post = () => {
         }
 
         agent.Blog.createBlog(form)
-            .then((data: any) => console.log(data))
+            .then((data: any) => {
+                message.success("포스트가 성공적으로 생성되었어요!");
+                router.replace("/post");
+                resetForm();
+            })
             .catch((err: any) => {
                 console.log(err.response);
 
@@ -54,15 +57,17 @@ const Post = () => {
                     message.error("로그인이 필요합니다!!");
                     return;
                 }
-            })
-
- 
-
-        console.log(form);
+            });
     };
 
-    // console.log(editor,tagsForm)
-    
+    const resetForm = () => {
+        setEditor({
+            title: '',
+            body: '',
+        });
+        setTagsForm({tags: []});
+    }
+
     return (
         <Responsive>
             <Editor 
