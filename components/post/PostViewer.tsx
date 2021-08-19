@@ -1,40 +1,34 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
+import { DatasProps } from "../../pages/post";
+import { DataProps } from "../../pages/post/[id]";
 import palette from "../../styles/palette";
 import { useUser } from "../../util";
 import Responsive from "../common/Responsive";
+import { Post } from "./PostList";
 
-export interface PostType {
-    body: string,
-    publishedDate: string,
-    tags: string[],
-    title: string
-}
-
-const PostViewer = ({body, publishedDate, tags, title}: PostType) => {
-    const { user, mutateUser } = useUser();
-
-    console.log(tags)
-
+const PostViewer = ({data}:DataProps) => {
     return(
         <Wrap>
             <PostHead>
-                <h1>{title}</h1>
+                <h1>{data?.title}</h1>
                 <SubInfo>
                     <span>
-                        <b>{user?.username}</b>
+                        <b>{data?.user?.username}</b>
                     </span>
-                    <span>{new Date(publishedDate).toLocaleDateString()}</span>
+                    <span>{new Date().toLocaleDateString()}</span>
                 </SubInfo>
                 <Tags>
-                    {tags?.map((tag, index) => {
-                        return (
-                            <div className="tag" key={index}>#{tag}</div>
-                        )
-                    })}
+                    {
+                        data?.tags?.map((tag: string, index: number) => {
+                            return (
+                                <div key={index} className="tag">#태그3</div>
+                            )
+                        })
+                    }
                 </Tags>
             </PostHead>
-            <PostContents dangerouslySetInnerHTML={{ __html: body }}/>
+            <PostContents dangerouslySetInnerHTML={{ __html: data?.body }}/>
         </Wrap>
     );
 };

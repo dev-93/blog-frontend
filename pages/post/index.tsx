@@ -5,23 +5,11 @@ import styled from 'styled-components';
 import HeaderContainer from '../../components/common/HeaderContainer';
 import PostList from '../../components/post/PostList';
 
-export type DataProps = {
-    data: {
-        body: string,
-        publishedDate: string,
-        tags: string[],
-        user: object,
-        _id: string
-    }
-};
-
 export type DatasProps = {
     datas: any
 };
 
-
 const Post = ({datas}: DatasProps) => {
-    console.log(datas);
     const router = useRouter();
     return (
         <Wrap>

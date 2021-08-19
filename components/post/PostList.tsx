@@ -4,27 +4,42 @@ import { DatasProps } from "../../pages/post";
 import palette from "../../styles/palette";
 import Responsive from "../common/Responsive";
 
+export type Post = {
+    user: {
+        username: string,
+        _id: string
+    },
+    title: string,
+    body: string,
+    tags: string[],
+    _id: string
+};
+
 const PostList = ({datas}:DatasProps) => {
     return(
         <Wrap>
-            {datas.map((post, index) => {
+            {datas?.map((post: Post) => {
                 return (
                     <Fragment key={post._id}>
                         <PostHead>
                             <h1>{post.title}</h1>
                             <SubInfo>
                                 <span>
-                                    <b>tester</b>
+                                    <b>{post.user?.username}</b>
                                 </span>
                                 <span>{new Date().toLocaleDateString()}</span>
                             </SubInfo>
                             <Tags>
-                                <div className="tag">#태그1</div>
-                                <div className="tag">#태그2</div>
-                                <div className="tag">#태그3</div>
+                                {
+                                    post.tags?.map((tag: string, index: number) => {
+                                        return (
+                                            <div key={index} className="tag">#태그3</div>
+                                        )
+                                    })
+                                }
                             </Tags>
                         </PostHead>
-                        <PostContents dangerouslySetInnerHTML={{ __html: "<PHTML <b>내용</b>입니다.</P>" }}/>
+                        <PostContents dangerouslySetInnerHTML={{ __html: post.body }}/>
                     </Fragment>
                 )
             })}

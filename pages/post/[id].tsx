@@ -5,22 +5,19 @@ import styled from 'styled-components';
 import HeaderContainer from '../../components/common/HeaderContainer';
 import PostViewer from '../../components/post/PostViewer';
 
-type DataProps = {
+export type DataProps = {
     data: any
 };
 
 const PostDetail = ({data}: DataProps) => {
-    console.log(data);
     const router = useRouter();
+
     return (
         <Wrap>
             <HeaderContainer/>
             <button onClick={() => router.push("/post/write")}>포스트 작성</button>
             <PostViewer
-                body={data.body}
-                publishedDate={data.publishedDate}
-                tags={data.tags}
-                title={data.title}
+                data={data}
             />
         </Wrap>
     )
@@ -31,10 +28,12 @@ const Wrap = styled.div`
 
 export async function getStaticPaths() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_ENV_VARIABLE}/api/posts`);
-    const data = await res.json();
+    const datas = await res.json();
+
+    console.log
 
     return {
-        paths: data.map((item:any) => ({
+        paths: datas.map((item:any) => ({
             params: {
                 id: item._id.toString()
             },
