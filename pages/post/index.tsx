@@ -5,17 +5,31 @@ import styled from 'styled-components';
 import HeaderContainer from '../../components/common/HeaderContainer';
 import PostList from '../../components/post/PostList';
 
-type DataProps = {
-    data: string[]
+export type DataProps = {
+    data: {
+        body: string,
+        publishedDate: string,
+        tags: string[],
+        user: object,
+        _id: string
+    }
 };
 
-const Post = ({data}: DataProps) => {
+export type DatasProps = {
+    datas: any
+};
+
+
+const Post = ({datas}: DatasProps) => {
+    console.log(datas);
     const router = useRouter();
     return (
         <Wrap>
             <HeaderContainer/>
             <button onClick={() => router.push("/post/write")}>포스트 작성</button>
-            <PostList/>
+            <PostList
+                datas={datas}
+            />
         </Wrap>
     )
 };
@@ -25,16 +39,16 @@ const Wrap = styled.div`
 
 export async function getStaticProps() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_ENV_VARIABLE}/api/posts`);
-    const data = await res.json();
+    const datas = await res.json();
 
-    if (!data) {
+    if (!datas) {
         return {
             notFound: true,
         }
     }
   
     return {
-      props: { data }, // will be passed to the page component as props
+      props: { datas }, // will be passed to the page component as props
     }
 }
 
