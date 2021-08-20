@@ -76,8 +76,8 @@ const Auth = {
 const Blog = {
     createBlog: (data: object) =>
         requests.post('/posts', data),
-    getPost: (page: number) =>
-        requests.get(`/posts?page=${page}`),
+    getBlogList: (data: any) =>
+        data ? (requests.get(`/posts?${data}`)) : (requests.get(`/posts`)) 
 };
 
 export default {

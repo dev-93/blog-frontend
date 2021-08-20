@@ -27,7 +27,7 @@ const PostList = ({postData, setPostData}:DatasProps) => {
     const [isLast, setIsLast] = useState(true);
 
     const loadFunc = (page:number) => {
-        agent.Blog.getPost(page)
+        agent.Blog.getBlogList(`page=${page}`)
             .then((data: any) => {
                 setIsLast(data.length === 10);
                 setPostData([...postData, ...data]);
