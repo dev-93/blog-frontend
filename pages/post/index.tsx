@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
@@ -14,7 +15,9 @@ const Post = ({datas}: DatasProps) => {
     return (
         <Wrap>
             <HeaderContainer/>
-            <button onClick={() => router.push("/post/write")}>포스트 작성</button>
+            <div className="bt_box">
+                <Button type="primary" onClick={() => router.push("/post/write")}>포스트 작성</Button>
+            </div>
             <PostList
                 datas={datas}
             />
@@ -23,6 +26,16 @@ const Post = ({datas}: DatasProps) => {
 };
 
 const Wrap = styled.div`
+    .bt_box {
+        width: 1024px;
+        margin: 0 auto;
+        position: fixed;
+        top:64px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: flex-end;
+    }
 `; 
 
 export async function getStaticProps() {
