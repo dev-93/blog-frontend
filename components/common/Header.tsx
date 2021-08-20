@@ -20,7 +20,7 @@ const Header = ({ user, onLogout, onLogin }: State) => {
         <>
             <HeaderBlock>
                 <Wrapper>
-                    <Link href="/">
+                    <Link href="/post">
                         <a className="logo">TAENAM</a>
                     </Link>
                     {
