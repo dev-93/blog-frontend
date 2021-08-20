@@ -1,9 +1,11 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import styled from "styled-components";
-import { DatasProps } from "../../pages/post";
 import palette from "../../styles/palette";
 import Responsive from "../common/Responsive";
 import Link from "next/link";
+import InfiniteScroll from 'react-infinite-scroller';
+import agent from "../../agent";
+import { Spin } from "antd";
 
 export type Post = {
     user: {
@@ -16,38 +18,62 @@ export type Post = {
     _id: string
 };
 
-const PostList = ({datas}:DatasProps) => {
+export type DatasProps = {
+    postData: any,
+    setPostData: any
+};
+
+const PostList = ({postData, setPostData}:DatasProps) => {
+    const [isLast, setIsLast] = useState(true);
+
+    const loadFunc = (page:number) => {
+        agent.Blog.getPost(page)
+            .then((data: any) => {
+                setIsLast(data.length === 10);
+                setPostData([...postData, ...data]);
+            });
+    };
+
     return(
         <Wrap>
-            {datas?.map((post: Post) => {
-                return (
-                    <Fragment key={post._id}>
-                        <Link href={`/post/${post._id}`}>
-                            <a>
-                                <PostHead>
-                                    <h1>{post.title}</h1>
-                                    <SubInfo>
-                                        <span>
-                                            <b>{post.user?.username}</b>
-                                        </span>
-                                        <span>{new Date().toLocaleDateString()}</span>
-                                    </SubInfo>
-                                    <Tags>
-                                        {
-                                            post.tags?.map((tag: string, index: number) => {
-                                                return (
-                                                    <div key={index} className="tag">{tag}</div>
-                                                )
-                                            })
-                                        }
-                                    </Tags>
-                                </PostHead>
-                                <PostContents dangerouslySetInnerHTML={{ __html: post.body }}/>
-                            </a>
-                        </Link>
-                    </Fragment>
-                )
-            })}
+            <InfiniteScroll
+                pageStart={0}
+                loadMore={loadFunc}
+                hasMore={isLast}
+                loader={<Spin key={1}/>}
+            >
+                {
+                    postData?.map((post: Post) => {
+                        return (
+                            <Fragment key={post._id}>
+                                <Link href={`/post/${post._id}`}>
+                                    <a>
+                                        <PostHead>
+                                            <h1>{post.title}</h1>
+                                            <SubInfo>
+                                                <span>
+                                                    <b>{post.user?.username}</b>
+                                                </span>
+                                                <span>{new Date().toLocaleDateString()}</span>
+                                            </SubInfo>
+                                            <Tags>
+                                                {
+                                                    post.tags?.map((tag: string, index: number) => {
+                                                        return (
+                                                            <div key={index} className="tag">{tag}</div>
+                                                        )
+                                                    })
+                                                }
+                                            </Tags>
+                                        </PostHead>
+                                        <PostContents dangerouslySetInnerHTML={{ __html: post.body }}/>
+                                    </a>
+                                </Link>
+                            </Fragment>
+                        )
+                    }
+                )}
+            </InfiniteScroll>
         </Wrap>
     );
 };

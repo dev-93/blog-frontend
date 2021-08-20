@@ -12,6 +12,12 @@ export type DatasProps = {
 
 const Post = ({datas}: DatasProps) => {
     const router = useRouter();
+    const [postData, setPostData] = useState([]);
+
+    useEffect(() => {
+        setPostData(datas);
+    }, [datas]);
+
     return (
         <Wrap>
             <HeaderContainer/>
@@ -19,7 +25,8 @@ const Post = ({datas}: DatasProps) => {
                 <Button type="primary" onClick={() => router.push("/post/write")}>포스트 작성</Button>
             </div>
             <PostList
-                datas={datas}
+                postData={postData}
+                setPostData={setPostData}
             />
         </Wrap>
     )
