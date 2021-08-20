@@ -15,7 +15,6 @@ const PostDetail = ({data}: DataProps) => {
     return (
         <Wrap>
             <HeaderContainer/>
-            <button onClick={() => router.push("/post/write")}>포스트 작성</button>
             <PostViewer
                 data={data}
             />
