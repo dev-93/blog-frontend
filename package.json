@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/quill": "^2.0.9",
+    "@types/react-infinite-scroller": "^1.2.2",
     "@types/styled-components": "^5.1.11",
     "@types/superagent": "^4.1.12",
     "antd": "^4.16.10",
