@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { DatasProps } from "../../pages/post";
 import palette from "../../styles/palette";
 import Responsive from "../common/Responsive";
+import Link from "next/link";
 
 export type Post = {
     user: {
@@ -21,25 +22,29 @@ const PostList = ({datas}:DatasProps) => {
             {datas?.map((post: Post) => {
                 return (
                     <Fragment key={post._id}>
-                        <PostHead>
-                            <h1>{post.title}</h1>
-                            <SubInfo>
-                                <span>
-                                    <b>{post.user?.username}</b>
-                                </span>
-                                <span>{new Date().toLocaleDateString()}</span>
-                            </SubInfo>
-                            <Tags>
-                                {
-                                    post.tags?.map((tag: string, index: number) => {
-                                        return (
-                                            <div key={index} className="tag">#태그3</div>
-                                        )
-                                    })
-                                }
-                            </Tags>
-                        </PostHead>
-                        <PostContents dangerouslySetInnerHTML={{ __html: post.body }}/>
+                        <Link href={`/post/${post._id}`}>
+                            <a>
+                                <PostHead>
+                                    <h1>{post.title}</h1>
+                                    <SubInfo>
+                                        <span>
+                                            <b>{post.user?.username}</b>
+                                        </span>
+                                        <span>{new Date().toLocaleDateString()}</span>
+                                    </SubInfo>
+                                    <Tags>
+                                        {
+                                            post.tags?.map((tag: string, index: number) => {
+                                                return (
+                                                    <div key={index} className="tag">{tag}</div>
+                                                )
+                                            })
+                                        }
+                                    </Tags>
+                                </PostHead>
+                                <PostContents dangerouslySetInnerHTML={{ __html: post.body }}/>
+                            </a>
+                        </Link>
                     </Fragment>
                 )
             })}

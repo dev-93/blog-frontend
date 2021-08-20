@@ -22,7 +22,7 @@ const PostViewer = ({data}:DataProps) => {
                     {
                         data?.tags?.map((tag: string, index: number) => {
                             return (
-                                <div key={index} className="tag">#태그3</div>
+                                <div key={index} className="tag">{tag}</div>
                             )
                         })
                     }
