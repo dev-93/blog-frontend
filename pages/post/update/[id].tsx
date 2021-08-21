@@ -71,8 +71,8 @@ const PostUpdate = ({data}: DataProps) => {
 
         agent.Blog.updatePost(router.query.id ,form)
             .then((data: any) => {
-                message.success("포스트가 성공적으로 생성되었어요!");
-                router.replace("/post");
+                message.success("포스트가 성공적으로 수정되었어요!");
+                router.back();
                 resetForm();
             })
             .catch((err: any) => {
