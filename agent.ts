@@ -1,6 +1,5 @@
 import superagentPromise from 'superagent-promise';
 import _superagent from 'superagent';
-import { CommonStore } from './store/common';
 import { Form } from './store/auth';
 
 const superagent = superagentPromise(_superagent, global.Promise);
@@ -17,19 +16,7 @@ const handleErrors = (err: any) => {
 
 const responseBody = (res: any) => res.body ?? res.text;
 
-const tokenPlugin = (req: any) => {
-    const cookie = getCookie('cookie');
-
-    // if (cookie) {
-    //     // req.set('cookie', `${cookie}`);
-    //     req.set("hello", "fuck")
-    // }
-};
-
-function getCookie(name: string) {
-    const value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-    return value ? value[2] : null;
-};
+const tokenPlugin = (req: any) => {};
 
 type Url = string;
 
@@ -76,7 +63,7 @@ const Auth = {
 const Blog = {
     createBlog: (data: object) =>
         requests.post('/posts', data),
-    getBlogList: (data: any) =>
+    getBlogList: (data?: any) =>
         data ? (requests.get(`/posts?${data}`)) : (requests.get(`/posts`)) 
 };
 
