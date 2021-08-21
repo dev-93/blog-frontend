@@ -7,7 +7,9 @@ export interface Form {
 
 export interface Tag {
     tags: string[];
-}
+};
+
+export type Post = any[];
 
 export const editorForm = atom<Form>({
     key: 'editorState',
@@ -22,4 +24,9 @@ export const tagForm = atom<Tag>({
     default: {
         tags: [],
     }
+});
+
+export const postList = atom<Post>({
+    key: 'postList',
+    default: [],
 });
