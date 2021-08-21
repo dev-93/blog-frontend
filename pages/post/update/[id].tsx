@@ -97,15 +97,15 @@ const PostUpdate = ({data}: DataProps) => {
         <Wrap>
             <HeaderContainer/>
             {
-                data ? (
+                editor.title && tagsForm ? (
                     <Responsive>
                         <Editor 
-                            title={editor.title}
-                            body={editor.body}
+                            title={editor?.title}
+                            body={editor?.body}
                             onChangeField={onChangeField}
                         />
                         <TagBox
-                            tags={tagsForm.tags}
+                            tags={tagsForm?.tags}
                             onChangeTags={onChangeTags}
                         />
                         <WriteActionButton 
