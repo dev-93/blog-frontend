@@ -5,7 +5,7 @@ import Responsive from "../common/Responsive";
 import Link from "next/link";
 import InfiniteScroll from 'react-infinite-scroller';
 import agent from "../../agent";
-import { Spin } from "antd";
+import { Empty, Spin } from "antd";
 
 export type Post = {
     user: {
@@ -27,11 +27,13 @@ const PostList = ({postData, setPostData}:DatasProps) => {
     const [isLast, setIsLast] = useState(true);
 
     const loadFunc = (page:number) => {
-        agent.Blog.getBlogList(`page=${page}`)
-            .then((data: any) => {
-                setIsLast(data.length === 10);
-                setPostData([...postData, ...data]);
-            });
+        if (page !== 1) {
+            agent.Blog.getBlogList(`page=${page}`)
+                .then((data: any) => {
+                    setIsLast(data.length === 10);
+                    setPostData([...postData, ...data]);
+                });
+        }
     };
 
     return(
@@ -43,7 +45,7 @@ const PostList = ({postData, setPostData}:DatasProps) => {
                 loader={<Spin key={1}/>}
             >
                 {
-                    postData?.map((post: Post) => {
+                    postData.length > 0 ? postData.map((post: Post) => {
                         return (
                             <Fragment key={post._id}>
                                 <Link href={`/post/${post._id}`}>
@@ -72,7 +74,7 @@ const PostList = ({postData, setPostData}:DatasProps) => {
                             </Fragment>
                         )
                     }
-                )}
+                ) : (<div className="empty_box"><Empty description="찾으시는 post가 없습니다"/></div>)}
             </InfiniteScroll>
         </Wrap>
     );
@@ -80,6 +82,13 @@ const PostList = ({postData, setPostData}:DatasProps) => {
 
 const Wrap = styled(Responsive)`
     margin-top: 4rem;
+
+    .empty_box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 `;
 
 const PostHead = styled.div`
