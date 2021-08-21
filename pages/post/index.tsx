@@ -8,7 +8,6 @@ import HeaderContainer from '../../components/common/HeaderContainer';
 import PostList from '../../components/post/PostList';
 import { SearchOutlined } from '@ant-design/icons';
 import agent from '../../agent';
-
   
 export type DatasProps = {
     datas: any
@@ -23,6 +22,9 @@ const Post = ({datas}: DatasProps) => {
     }, [datas]);
 
     const onSearch = (value: string) => {
+        if (value) {
+            window.scrollTo(0,0);
+        }
         agent.Blog.getBlogList(`tag=${value}`)
             .then((data: any) => {
                 setPostData(data);
