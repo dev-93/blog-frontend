@@ -44,11 +44,11 @@ const Post = ({datas}: DatasProps) => {
             <HeaderContainer/>
             
             <div className="bt_box">
-                <Popover placement="leftTop" title={text} content={content} trigger="click">
+                {/* <Popover placement="leftTop" title={text} content={content} trigger="click">
                     <Button>
                         <SearchOutlined />
                     </Button>
-                </Popover>
+                </Popover> */}
                 <Button type="primary" onClick={() => router.push("/post/write")}>포스트 작성</Button>
             </div>
             <PostList
