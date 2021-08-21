@@ -1,28 +1,56 @@
+import { Button, Popconfirm } from 'antd';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import agent from '../../agent';
 import HeaderContainer from '../../components/common/HeaderContainer';
 import PostViewer from '../../components/post/PostViewer';
+import Responsive from "../../components/common/Responsive";
 
 export type DataProps = {
     data: any
 };
 
 const PostDetail = ({data}: DataProps) => {
-    const router = useRouter();
+    const router:any = useRouter();
+
+    const confirm = () => {
+        agent.Blog.deletePost(router.query.id)
+            .then((data: any) => console.log(data));
+    }
 
     return (
         <Wrap>
             <HeaderContainer/>
-            <PostViewer
-                data={data}
-            />
+            <Responsive>
+                <div className="bt_box">
+                    <Button type="dashed" onClick={() => router.push(`/post/update/${router.query.id}`)}>수정</Button>
+
+                    <Popconfirm placement="topLeft" title={"정말 삭제하시겠습니까?"} onConfirm={confirm} okText="네" cancelText="아니요">
+                        <Button className="bt_danger" type="dashed" danger>삭제</Button>
+                    </Popconfirm>
+                    
+                </div>
+                <PostViewer
+                    data={data}
+                />
+            </Responsive>
         </Wrap>
     )
 };
 
 const Wrap = styled.div`
+    .bt_box {
+        margin-top: 30px;
+        margin-right: 30px;
+        display: flex;
+        justify-content: flex-end;
+
+        .bt_danger {
+            margin-left: 10px;
+        }
+    }
 `; 
 
 export async function getStaticPaths() {

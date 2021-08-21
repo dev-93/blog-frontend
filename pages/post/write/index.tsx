@@ -42,6 +42,9 @@ const Post = () => {
         } else if (!form.body) {
             message.warn("내용을 입력해주세요!!");
             return;
+        } else if (!form.tags.length) {
+            message.warn("태그를 추가해주세요!!");
+            return;
         }
 
         agent.Blog.createBlog(form)

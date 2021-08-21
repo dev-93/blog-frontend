@@ -39,9 +39,15 @@ const requests = {
             .use(tokenPlugin)
             .end(handleErrors)
             .then(responseBody),
-    post: (url: Url, body?: object) =>
+    post: (url: Url, body?: any) =>
         superagent
             .post(`${API_ROOT}${url}`, body)
+            .use(tokenPlugin)
+            .end(handleErrors)
+            .then(responseBody),
+    patch: (url: Url, body?: any) =>
+        superagent
+            .patch(`${API_ROOT}${url}`, body)
             .use(tokenPlugin)
             .end(handleErrors)
             .then(responseBody),
@@ -64,7 +70,11 @@ const Blog = {
     createBlog: (data: object) =>
         requests.post('/posts', data),
     getBlogList: (data?: any) =>
-        data ? (requests.get(`/posts?${data}`)) : (requests.get(`/posts`)) 
+        data ? (requests.get(`/posts?${data}`)) : (requests.get(`/posts`)) ,
+    deletePost: (id: string) =>
+        requests.del(`/posts/${id}`),
+    updatePost: (id: string, data: any) => 
+        requests.patch(`/posts/${id}`, data),
 };
 
 export default {
