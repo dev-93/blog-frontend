@@ -29,8 +29,6 @@ export async function getStaticPaths() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_ENV_VARIABLE}/api/posts`);
     const datas = await res.json();
 
-    console.log
-
     return {
         paths: datas.map((item:any) => ({
             params: {

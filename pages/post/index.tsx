@@ -83,7 +83,7 @@ export async function getStaticProps() {
     }
   
     return {
-      props: { datas }, // will be passed to the page component as props
+        props: { datas }, // will be passed to the page component as props
     }
 }
 
