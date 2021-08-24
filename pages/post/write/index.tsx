@@ -56,7 +56,7 @@ const Post = () => {
             .catch((err: any) => {
                 console.log(err.response);
 
-                if(err.response.status === 401) {
+                if(err.response?.status === 401) {
                     message.error("로그인이 필요합니다!!");
                     return;
                 }
