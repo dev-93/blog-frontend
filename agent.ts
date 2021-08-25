@@ -17,8 +17,9 @@ const handleErrors = (err: any) => {
 const responseBody = (res: any) => res.body ?? res.text;
 
 const tokenPlugin = (req: any) => {
-    // const CommonStore = useCommonStore();
+    const cookie = getCookie("token");
 
+    req.set('token', cookie);
     // ctx.cookies.set('access_token', token, {
     //     maxAge: 1000 * 60 * 60 * 24 * 7,
     //     httpOnly: true,

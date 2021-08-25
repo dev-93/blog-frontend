@@ -16,7 +16,7 @@ export default withSession(async (req, res) => {
             }),
         });
 
-        req.session.set("user", result.user);
+        req.session.set("user", result);
         await req.session.save();
         res.json(result);
     } catch (error) {

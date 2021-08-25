@@ -9,18 +9,11 @@ import { fetchJson, useUser } from "../../util";
 
 const Login = () => {
     const router = useRouter();
+    const resetLoginState = useResetRecoilState(loginForm);
     const [form, setForm] = useRecoilState(loginForm);
-    const [isError, setIsError] = useState('');
     const loginValue = useRecoilValue(loginForm);
+    const [isError, setIsError] = useState('');
     const { user, mutateUser } = useUser();
-
-    useEffect(() => {
-        if (user?.isLoggedIn) {
-            message.info('현재 로그인이 되어 포스트 페이지로 이동합니다');
-    
-            router.replace('/post');
-        }
-    },[user?.isLoggedIn]);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
@@ -49,16 +42,23 @@ const Login = () => {
                 body: JSON.stringify(form),
               }),
             ).then((data) => {
-                console.log(data, "data");
-                console.log(user);
+                setCookie('token', data.token, 7);
                 setIsError('');
-                // resetLoginState();
+                resetLoginState();
+                message.success(`로그인 되었습니다. 어서오세요${data.user.username}`);
+                router.replace('/post');
             });
         } catch (error) {
             if (error.response.status === 500) {
                 setIsError("아이디 또는 비밀번호 확인해주세요");
             }
         }
+    };
+
+    function setCookie(name: any, value: any, day: number) {
+        const date = new Date();
+        date.setTime(date.getTime() + day * 24 * 60 * 60 * 1000);
+        document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
     };
 
     return (

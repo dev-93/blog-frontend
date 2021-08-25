@@ -5,8 +5,12 @@ import styled from "styled-components";
 import Responsive from './Responsive';
 
 type User = {
-    username: string,
-    isLoggedIn: boolean
+    isLoggedIn: boolean,
+    token?: string,
+    user : {
+        username: string,
+        _id?: string
+    }
 }
 
 type State = {
@@ -26,7 +30,7 @@ const Header = ({ user, onLogout, onLogin }: State) => {
                     {
                         user?.isLoggedIn ? (
                             <div className="right">
-                                <UserInfo>{user.username}</UserInfo>
+                                <UserInfo>{user?.user.username}</UserInfo>
                                 <Button onClick={onLogout}>로그아웃</Button>
                             </div>
                         ) : (
