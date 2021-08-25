@@ -1,4 +1,4 @@
-import { Button, Popconfirm } from 'antd';
+import { Button, message, Popconfirm } from 'antd';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
@@ -17,7 +17,10 @@ const PostDetail = ({data}: DataProps) => {
 
     const confirm = () => {
         agent.Blog.deletePost(router.query.id)
-            .then((data: any) => console.log(data));
+            .then((data: any) => {
+                message.info("해당 포스트가 삭제되었습니다");
+                router.back();
+            });
     }
 
     return (
