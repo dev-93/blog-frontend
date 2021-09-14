@@ -7,6 +7,7 @@ import agent from '../../agent';
 import HeaderContainer from '../../components/common/HeaderContainer';
 import PostViewer from '../../components/post/PostViewer';
 import Responsive from "../../components/common/Responsive";
+import { useUser } from '../../util';
 
 export type DataProps = {
     data: any
@@ -14,26 +15,28 @@ export type DataProps = {
 
 const PostDetail = ({data}: DataProps) => {
     const router:any = useRouter();
+    const { user, mutateUser } = useUser();
 
     const confirm = () => {
         agent.Blog.deletePost(router.query.id)
-            .then((data: any) => {
-                message.info("해당 포스트가 삭제되었습니다");
-                router.back();
-            });
-    }
+            .then((data: any) => console.log(data));
+    };
 
     return (
         <Wrap>
             <HeaderContainer/>
             <Responsive>
                 <div className="bt_box">
-                    <Button type="dashed" onClick={() => router.push(`/post/update/${router.query.id}`)}>수정</Button>
-
-                    <Popconfirm placement="topLeft" title={"정말 삭제하시겠습니까?"} onConfirm={confirm} okText="네" cancelText="아니요">
-                        <Button className="bt_danger" type="dashed" danger>삭제</Button>
-                    </Popconfirm>
-                    
+                    {
+                        user?.user?._id === data?.user?._id && (
+                            <>
+                                <Button type="dashed" onClick={() => router.push(`/post/update/${router.query.id}`)}>수정</Button>
+                                <Popconfirm placement="topLeft" title={"정말 삭제하시겠습니까?"} onConfirm={confirm} okText="네" cancelText="아니요">
+                                    <Button className="bt_danger" type="dashed" danger>삭제</Button>
+                                </Popconfirm>
+                            </>
+                        )
+                    }
                 </div>
                 <PostViewer
                     data={data}
