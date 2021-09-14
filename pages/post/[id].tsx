@@ -19,7 +19,10 @@ const PostDetail = ({data}: DataProps) => {
 
     const confirm = () => {
         agent.Blog.deletePost(router.query.id)
-            .then((data: any) => console.log(data));
+            .then((data: any) => {
+                message.success('성공적으로 삭제되었습니다');
+                router.back();
+            });
     };
 
     return (
