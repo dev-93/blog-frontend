@@ -42,7 +42,6 @@ const PostList = ({postData, setPostData}:DatasProps) => {
                 pageStart={0}
                 loadMore={loadFunc}
                 hasMore={isLast}
-                loader={<Spin key={1}/>}
             >
                 {
                     postData.length > 0 ? postData.map((post: Post) => {

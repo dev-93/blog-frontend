@@ -33,9 +33,6 @@ const PostUpdate = ({data}: DataProps) => {
         });
     },[data]);
 
-    console.log(tagsForm);
-    console.log(editor);
-
     const onChangeField = ({key, value}:EditorValue) => {
         setEditor({...editor, [key]: value});
     };

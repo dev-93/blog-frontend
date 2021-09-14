@@ -87,7 +87,6 @@ const Register = () => {
             }
         })
         .catch((err:any)=> {
-            console.log(err.response);
             if (err.response.status === 500) {
                 setIsError("아이디 또는 비밀번호 확인해주세요");
             };

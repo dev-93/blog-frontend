@@ -4,7 +4,7 @@ import TodoItem from './TodoItem';
 
 const TodoList = () => {
   const todo = useRecoilValue(todoStore);
-  console.log(todo);
+  
   return (
     <section>
       {todo.map((v) => (
