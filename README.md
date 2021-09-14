@@ -1,5 +1,5 @@
 # 이 프로젝트는 Next.js + typescript로 만들어졌습니다
-url: https://blog-frontend-lilac-chi.vercel.app/
+url: https://blog-nu-rouge.vercel.app/post
 
 # 사용 도구
 + 패키지 매니저 도구: yarn
