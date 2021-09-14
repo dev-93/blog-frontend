@@ -11,7 +11,7 @@ const AuthTemplate = ({children}:Props) => {
         <AuthTemplateBlock>
             <WhiteBox>
                 <div className="logo-area">
-                    <Link href="/">
+                    <Link href="/post">
                         <a>Blog</a>
                     </Link>
                 </div>
