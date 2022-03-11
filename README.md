@@ -1,6 +1,4 @@
 # 프로젝트명
-[url](https://blog-nu-rouge.vercel.app/post)
-
 ### 개발 기간
 - 2021.08.20 ~ 2021.09.14
 
